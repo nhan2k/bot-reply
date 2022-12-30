@@ -144,7 +144,7 @@ const Home: React.FC<IHome> = () => {
             <input
               className=" flex h-10 w-full items-center rounded px-3 text-sm"
               type="text"
-              placeholder="Nhập tên thành phố"
+              placeholder="Nhập tên thành phố (không dấu)"
               value={value}
               onChange={handleOnchange}
             />
