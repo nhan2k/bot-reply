@@ -5,25 +5,17 @@ interface IWeather {
   last_updated?: string;
   last_updated_epoch?: number;
   temp_c?: number;
-  temp_f?: number;
   feelslike_c?: number;
-  feelslike_f?: number;
   condition?: {
     text?: string;
   };
-  wind_mph?: number;
   wind_kph?: number;
   wind_degree?: number;
-  wind_dir?: string;
-  pressure_mb?: number;
   pressure_in?: number;
   precip_mm?: number;
-  precip_in?: number;
   humidity?: number;
   cloud?: number;
-  is_day?: number;
   uv?: number;
-  gust_mph?: number;
   gust_kph?: number;
 }
 
@@ -39,7 +31,7 @@ const Home: React.FC<IHome> = () => {
     e.preventDefault();
     const options = {
       method: "GET",
-      url: "http://api.weatherapi.com/v1/current.json",
+      url: "https://api.weatherapi.com/v1/current.json",
       params: { key: process.env.NEXT_PUBLIC_API_KEY, q: value },
     };
 
@@ -104,7 +96,40 @@ const Home: React.FC<IHome> = () => {
                 <div>
                   <div className="rounded-r-lg rounded-bl-lg bg-gray-300 p-3">
                     <p className="text-sm">Thời tiết tại {subValue} hôm nay.</p>
-                    <p className="text-sm">{JSON.stringify(data, null, 4)}</p>
+                    <p className="text-sm">
+                      Độ che phủ của mây theo tỷ lệ phần trăm : {data?.cloud}
+                    </p>
+                    <p className="text-sm">
+                      Điều kiện thời tiết : {data?.condition?.text}
+                    </p>
+                    <p className="text-sm">Nhiệt độ : {data?.feelslike_c}</p>
+                    <p className="text-sm">
+                      Gió giật tính bằng km trên giờ : {data?.gust_kph}
+                    </p>
+                    <p className="text-sm">
+                      Độ ẩm theo phần trăm : {data?.humidity}
+                    </p>
+                    <p className="text-sm">
+                      Giờ địa phương khi dữ liệu thời gian thực được cập nhật:{" "}
+                      {data?.last_updated}
+                    </p>
+                    <p className="text-sm">
+                      Giờ địa phương khi dữ liệu thời gian thực được cập nhật
+                      theo thời gian unix : {data?.last_updated_epoch}
+                    </p>
+                    <p className="text-sm">
+                      Lượng mưa tính bằng milimét : {data?.precip_mm}
+                    </p>
+                    <p className="text-sm">
+                      Áp suất tính bằng inch : {data?.pressure_in}
+                    </p>
+                    <p className="text-sm">
+                      Nhiệt độ tính bằng độ C : {data?.temp_c}
+                    </p>
+                    <p className="text-sm">Chỉ số UV : {data?.uv}</p>
+                    <p className="text-sm">
+                      Hướng gió theo độ : {data?.wind_degree}
+                    </p>
                   </div>
                   <span className="text-xs leading-none text-gray-500">
                     now
