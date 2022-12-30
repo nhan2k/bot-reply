@@ -17,6 +17,7 @@ interface IWeather {
   cloud?: number;
   uv?: number;
   gust_kph?: number;
+  message?: string;
 }
 
 interface IHome {}
@@ -41,7 +42,7 @@ const Home: React.FC<IHome> = () => {
         setData(response.data?.current);
       })
       .catch(function (error) {
-        setData(error.message);
+        setData({ message: `Không tìm thấy vị trí phù hợp.` });
         console.error(error);
       });
     setSubValue(value);
@@ -89,54 +90,62 @@ const Home: React.FC<IHome> = () => {
                 <span className="text-xs leading-none text-gray-500">now</span>
               </div>
             </div>
-          ) : (
-            data && (
-              <div className="mt-2 flex w-full max-w-xs space-x-3">
-                <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"></div>
-                <div>
-                  <div className="rounded-r-lg rounded-bl-lg bg-gray-300 p-3">
-                    <p className="text-sm">Thời tiết tại {subValue} hôm nay.</p>
-                    <p className="text-sm">
-                      Độ che phủ của mây theo tỷ lệ phần trăm : {data?.cloud}
-                    </p>
-                    <p className="text-sm">
-                      Điều kiện thời tiết : {data?.condition?.text}
-                    </p>
-                    <p className="text-sm">Nhiệt độ : {data?.feelslike_c}</p>
-                    <p className="text-sm">
-                      Gió giật tính bằng km trên giờ : {data?.gust_kph}
-                    </p>
-                    <p className="text-sm">
-                      Độ ẩm theo phần trăm : {data?.humidity}
-                    </p>
-                    <p className="text-sm">
-                      Giờ địa phương khi dữ liệu thời gian thực được cập nhật:{" "}
-                      {data?.last_updated}
-                    </p>
-                    <p className="text-sm">
-                      Giờ địa phương khi dữ liệu thời gian thực được cập nhật
-                      theo thời gian unix : {data?.last_updated_epoch}
-                    </p>
-                    <p className="text-sm">
-                      Lượng mưa tính bằng milimét : {data?.precip_mm}
-                    </p>
-                    <p className="text-sm">
-                      Áp suất tính bằng inch : {data?.pressure_in}
-                    </p>
-                    <p className="text-sm">
-                      Nhiệt độ tính bằng độ C : {data?.temp_c}
-                    </p>
-                    <p className="text-sm">Chỉ số UV : {data?.uv}</p>
-                    <p className="text-sm">
-                      Hướng gió theo độ : {data?.wind_degree}
-                    </p>
-                  </div>
-                  <span className="text-xs leading-none text-gray-500">
-                    now
-                  </span>
+          ) : data?.message ? (
+            <div className="mt-2 flex w-full max-w-xs space-x-3">
+              <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"></div>
+              <div>
+                <div className="rounded-r-lg rounded-bl-lg bg-gray-300 p-3">
+                  <p className="text-sm">{data?.message}</p>
                 </div>
+                <span className="text-xs leading-none text-gray-500">now</span>
               </div>
-            )
+            </div>
+          ) : data?.cloud ? (
+            <div className="mt-2 flex w-full max-w-xs space-x-3">
+              <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"></div>
+              <div>
+                <div className="rounded-r-lg rounded-bl-lg bg-gray-300 p-3">
+                  <p className="text-sm">Thời tiết tại {subValue} hôm nay.</p>
+                  <p className="text-sm">
+                    Độ che phủ của mây theo tỷ lệ phần trăm : {data?.cloud}
+                  </p>
+                  <p className="text-sm">
+                    Điều kiện thời tiết : {data?.condition?.text}
+                  </p>
+                  <p className="text-sm">Nhiệt độ : {data?.feelslike_c}</p>
+                  <p className="text-sm">
+                    Gió giật tính bằng km trên giờ : {data?.gust_kph}
+                  </p>
+                  <p className="text-sm">
+                    Độ ẩm theo phần trăm : {data?.humidity}
+                  </p>
+                  <p className="text-sm">
+                    Giờ địa phương khi dữ liệu thời gian thực được cập nhật:{" "}
+                    {data?.last_updated}
+                  </p>
+                  <p className="text-sm">
+                    Giờ địa phương khi dữ liệu thời gian thực được cập nhật theo
+                    thời gian unix : {data?.last_updated_epoch}
+                  </p>
+                  <p className="text-sm">
+                    Lượng mưa tính bằng milimét : {data?.precip_mm}
+                  </p>
+                  <p className="text-sm">
+                    Áp suất tính bằng inch : {data?.pressure_in}
+                  </p>
+                  <p className="text-sm">
+                    Nhiệt độ tính bằng độ C : {data?.temp_c}
+                  </p>
+                  <p className="text-sm">Chỉ số UV : {data?.uv}</p>
+                  <p className="text-sm">
+                    Hướng gió theo độ : {data?.wind_degree}
+                  </p>
+                </div>
+                <span className="text-xs leading-none text-gray-500">now</span>
+              </div>
+            </div>
+          ) : (
+            <></>
           )}
         </div>
         <form onSubmit={handleSubmit}>
@@ -144,7 +153,7 @@ const Home: React.FC<IHome> = () => {
             <input
               className=" flex h-10 w-full items-center rounded px-3 text-sm"
               type="text"
-              placeholder="Nhập tên thành phố (không dấu)"
+              placeholder="Nhập tên thành phố"
               value={value}
               onChange={handleOnchange}
             />
